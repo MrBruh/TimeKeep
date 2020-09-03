@@ -15,14 +15,14 @@ class MyWindow(Gtk.Window):
 
         self.label = Gtk.Label(label="Hello World", angle=25, halign=Gtk.Align.END)
 
-        self.button = Gtk.Button(label="Click Here")
+        self.button = Gtk.Button(label=self.label)
         self.button.connect("clicked", self.on_button_clicked)
 
         # Wow, this prints a lot
         print(dir(self.button.props))
 
         # Wasn't in the tutorial, but I think this is a neat way of doing things, if it worked
-        self.button.label = self.label
+        #self.button.label = self.label
 
         self.add(self.button)
 
