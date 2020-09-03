@@ -6,35 +6,45 @@
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, Gio
 
 
-class StackWindow(Gtk.Window):
+class HeaderBarWindow(Gtk.Window):
     def __init__(self):
-        Gtk.Window.__init__(self, title="Stack Demo")
+        Gtk.Window.__init__(self, title="HeaderBar Demo")
         self.set_border_width(10)
+        self.set_default_size(400, 200)
 
-        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        self.add(vbox)
+        hb = Gtk.HeaderBar()
+        hb.set_show_close_button(True)
+        hb.props.title = "HeaderBar example"
+        self.set_titlebar(hb)
 
-        stack = Gtk.Stack()
-        stack.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
-        stack.set_transition_duration(1000)
+        button = Gtk.Button()
+        icon = Gio.ThemedIcon(name="mail-send-receive-symbolic")
+        image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
+        button.add(image)
+        hb.pack_end(button)
 
-        checkbutton = Gtk.CheckButton(label="Click me!")
-        stack.add_titled(checkbutton, "check", "Check Button")
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        Gtk.StyleContext.add_class(box.get_style_context(), "linked")
 
-        label = Gtk.Label()
-        label.set_markup("<big>A fancy label</big>")
-        stack.add_titled(label, "label", "A label")
+        button = Gtk.Button()
+        button.add(
+            Gtk.Arrow(arrow_type=Gtk.ArrowType.LEFT, shadow_type=Gtk.ShadowType.NONE)
+        )
+        box.add(button)
 
-        stack_switcher = Gtk.StackSwitcher()
-        stack_switcher.set_stack(stack)
-        vbox.pack_start(stack_switcher, True, True, 0)
-        vbox.pack_start(stack, True, True, 0)
+        button = Gtk.Button()
+        button = Gtk.Button.new_from_icon_name("pan-end-symbolic", Gtk.IconSize.MENU)
+        box.add(button)
+
+        hb.pack_start(box)
+
+        self.add(Gtk.TextView())
 
 
-win = StackWindow()
+win = HeaderBarWindow()
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
 Gtk.main()
