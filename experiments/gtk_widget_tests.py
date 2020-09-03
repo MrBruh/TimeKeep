@@ -15,6 +15,7 @@ class MyWindow(Gtk.Window):
 
         self.label = Gtk.Label(label="Hello World", angle=25, halign=Gtk.Align.END)
 
+        # OK so there's a tutorial on this later, so imma just leave it here
         self.button = Gtk.Button(label=self.label)
         self.button.connect("clicked", self.on_button_clicked)
 
